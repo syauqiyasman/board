@@ -19,36 +19,61 @@ function App() {
     ctxRef.current = ctx
   }, [brushColor])
 
-  // Start drawing
-  const startDrawing = (e: { nativeEvent: { offsetX: number; offsetY: number } }) => {
+  // Cursor Drawing
+  const startCursorDrawing = (e: { clientX: number, clientY: number }) => {
     if (ctxRef.current) {
       ctxRef.current.beginPath()
       ctxRef.current.moveTo(
-        e.nativeEvent.offsetX,
-        e.nativeEvent.offsetY
+        e.clientX,
+        e.clientY
       )
       setIsDrawing(true)
     }
   }
 
-  // End drawing
-  const endDrawing = () => {
-    if (ctxRef.current) {
-      ctxRef.current.closePath()
-      setIsDrawing(false)
-    }
-  }
-
-  const draw = (e: { nativeEvent: { offsetX: number; offsetY: number } }) => {
+  const cursorDrawing = (e: { clientX: number, clientY: number }) => {
     if (!isDrawing) {
       return
     }
     if (ctxRef.current) {
       ctxRef.current.lineTo(
-        e.nativeEvent.offsetX,
-        e.nativeEvent.offsetY
+        e.clientX,
+        e.clientY
       )
       ctxRef.current.stroke()
+    }
+  }
+
+  // Touchscreen Drawing
+  const startTouchDrawing = (e: any) => {
+    if (ctxRef.current) {
+      ctxRef.current.beginPath()
+      ctxRef.current.moveTo(
+        e.touches[0].clientX,
+        e.touches[0].clientY
+      )
+      setIsDrawing(true)
+    }
+  }
+
+  const touchDrawing = (e: any) => {
+    if (!isDrawing) {
+      return
+    }
+    if (ctxRef.current) {
+      ctxRef.current.lineTo(
+        e.touches[0].clientX,
+        e.touches[0].clientY
+      )
+      ctxRef.current.stroke()
+    }
+  }
+
+  // End Drawing
+  const endDrawing = () => {
+    if (ctxRef.current) {
+      ctxRef.current.closePath()
+      setIsDrawing(false)
     }
   }
 
@@ -69,9 +94,12 @@ function App() {
       />
       <canvas
         className={styles.canvas}
-        onMouseDown={startDrawing}
+        onMouseDown={startCursorDrawing}
+        onMouseMove={cursorDrawing}
         onMouseUp={endDrawing}
-        onMouseMove={draw}
+        onTouchStart={startTouchDrawing}
+        onTouchMove={touchDrawing}
+        onTouchEnd={endDrawing}
         ref={canvasRef}
         width={window.innerWidth}
         height={window.innerHeight}
