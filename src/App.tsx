@@ -7,6 +7,10 @@ function App() {
   const ctxRef = useRef<any>(null)
   const [isDrawing, setIsDrawing] = useState(false)
   const [brushColor, setBrushColor] = useState('#000')
+  const [canvasSize] = useState({
+    height: window.innerHeight,
+    witdh: window.innerWidth
+  })
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -20,25 +24,25 @@ function App() {
   }, [brushColor])
 
   // Cursor Drawing
-  const startCursorDrawing = (e: { clientX: number, clientY: number }) => {
+  const startCursorDrawing = (e: { pageX: number, pageY: number }) => {
     if (ctxRef.current) {
       ctxRef.current.beginPath()
       ctxRef.current.moveTo(
-        e.clientX,
-        e.clientY
+        e.pageX,
+        e.pageY
       )
       setIsDrawing(true)
     }
   }
 
-  const cursorDrawing = (e: { clientX: number, clientY: number }) => {
+  const cursorDrawing = (e: { pageX: number, pageY: number }) => {
     if (!isDrawing) {
       return
     }
     if (ctxRef.current) {
       ctxRef.current.lineTo(
-        e.clientX,
-        e.clientY
+        e.pageX,
+        e.pageY
       )
       ctxRef.current.stroke()
     }
@@ -49,8 +53,8 @@ function App() {
     if (ctxRef.current) {
       ctxRef.current.beginPath()
       ctxRef.current.moveTo(
-        e.touches[0].clientX,
-        e.touches[0].clientY
+        e.touches[0].pageX,
+        e.touches[0].pageY
       )
       setIsDrawing(true)
     }
@@ -62,8 +66,8 @@ function App() {
     }
     if (ctxRef.current) {
       ctxRef.current.lineTo(
-        e.touches[0].clientX,
-        e.touches[0].clientY
+        e.touches[0].pageX,
+        e.touches[0].pageY
       )
       ctxRef.current.stroke()
     }
@@ -93,16 +97,16 @@ function App() {
         clearDrawing={clearDrawing}
       />
       <canvas
-        className={styles.canvas}
+        ref={canvasRef}
         onMouseDown={startCursorDrawing}
         onMouseMove={cursorDrawing}
         onMouseUp={endDrawing}
         onTouchStart={startTouchDrawing}
         onTouchMove={touchDrawing}
         onTouchEnd={endDrawing}
-        ref={canvasRef}
-        width={window.innerWidth}
-        height={window.innerHeight}
+        className={styles.canvas}
+        height={canvasSize.height}
+        width={canvasSize.witdh}
       />
     </>
   )
