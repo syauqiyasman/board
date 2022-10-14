@@ -25,13 +25,13 @@
 }
 
 .iconButtonOuter {
+  cursor: pointer;
   padding: .5rem;
+  border-radius: 24px;
 }
 
 .iconButtonInner {
   border: 1px solid transparent;
-  border-radius: 9999px;
-  cursor: pointer;
   width: 2.5rem;
   height: 2.5rem;
   display: inline-flex;
