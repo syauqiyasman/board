@@ -7,6 +7,7 @@ function App() {
   const ctxRef = useRef<any>(null)
   const [isDrawing, setIsDrawing] = useState(false)
   const [brushColor, setBrushColor] = useState('#000')
+  const [isEraser, setIsEraser] = useState(false)
   const [canvasSize] = useState({
     height: window.innerHeight,
     witdh: window.innerWidth
@@ -19,14 +20,19 @@ function App() {
     ctx.lineJoin = 'round'
     ctx.strokeStyle = brushColor
     ctx.globalAlpha = 1
-    ctx.lineWidth = 2.5
+    ctx.lineWidth = isEraser ? 25 : 2.5
     ctxRef.current = ctx
-  }, [brushColor])
+  }, [brushColor, isEraser])
 
   // Cursor Drawing
   const startCursorDrawing = (e: { pageX: number, pageY: number }) => {
     if (ctxRef.current) {
       ctxRef.current.beginPath()
+      if (isEraser) {
+        ctxRef.current.globalCompositeOperation = 'destination-out'
+      } else {
+        ctxRef.current.globalCompositeOperation = 'source-over'
+      }
       ctxRef.current.moveTo(
         e.pageX,
         e.pageY
@@ -52,6 +58,11 @@ function App() {
   const startTouchDrawing = (e: any) => {
     if (ctxRef.current) {
       ctxRef.current.beginPath()
+      if (isEraser) {
+        ctxRef.current.globalCompositeOperation = 'destination-out'
+      } else {
+        ctxRef.current.globalCompositeOperation = 'source-over'
+      }
       ctxRef.current.moveTo(
         e.touches[0].pageX,
         e.touches[0].pageY
@@ -95,6 +106,8 @@ function App() {
         brushColor={brushColor}
         setBrushColor={setBrushColor}
         clearDrawing={clearDrawing}
+        isEraser={isEraser}
+        setIsEraser={setIsEraser}
       />
       <canvas
         ref={canvasRef}
