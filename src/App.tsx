@@ -10,7 +10,7 @@ function App() {
   const [isEraser, setIsEraser] = useState(false)
   const [canvasSize] = useState({
     height: window.innerHeight,
-    witdh: window.innerWidth
+    witdh: window.innerWidth,
   })
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function App() {
       }
       ctxRef.current.moveTo(
         e.pageX,
-        e.pageY
+        e.pageY,
       )
       setIsDrawing(true)
     }
@@ -48,7 +48,7 @@ function App() {
     if (ctxRef.current) {
       ctxRef.current.lineTo(
         e.pageX,
-        e.pageY
+        e.pageY,
       )
       ctxRef.current.stroke()
     }
@@ -65,7 +65,7 @@ function App() {
       }
       ctxRef.current.moveTo(
         e.touches[0].pageX,
-        e.touches[0].pageY
+        e.touches[0].pageY,
       )
       setIsDrawing(true)
     }
@@ -78,7 +78,7 @@ function App() {
     if (ctxRef.current) {
       ctxRef.current.lineTo(
         e.touches[0].pageX,
-        e.touches[0].pageY
+        e.touches[0].pageY,
       )
       ctxRef.current.stroke()
     }
@@ -92,7 +92,7 @@ function App() {
     }
   }
 
-  // Clear Drawing 
+  // Clear Drawing
   const clearDrawing = () => {
     if (ctxRef.current) {
       ctxRef.current.clearRect(0, 0, ctxRef.current.canvas.width, ctxRef.current.canvas.height)

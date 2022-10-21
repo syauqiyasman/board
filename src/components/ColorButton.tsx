@@ -1,3 +1,4 @@
+import React from 'react'
 import styles from './ColorButton.module.css'
 
 type ColorButtonProps = {
@@ -7,7 +8,9 @@ type ColorButtonProps = {
   setIsEraser: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function ColorButton({ color, brushColor, setBrushColor, setIsEraser }: ColorButtonProps) {
+export default function ColorButton({
+  color, brushColor, setBrushColor, setIsEraser,
+}: ColorButtonProps) {
   const keyDownHandler = (e: { code: string }) => {
     if (e.code === 'Enter' || e.code === 'Space') {
       setBrushColor(color)
