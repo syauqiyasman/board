@@ -1,18 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ColorButton from './ColorButton'
+import { IsEraserContext } from '../App'
 import styles from './Menu.module.css'
 
 type MenuProps = {
   setBrushColor: React.Dispatch<React.SetStateAction<string>>
-  brushColor: string
   clearDrawing: React.MouseEventHandler<HTMLDivElement> | any
   setIsEraser: React.Dispatch<React.SetStateAction<boolean>>
-  isEraser: boolean
 }
 
-export default function Menu({
-  setBrushColor, brushColor, clearDrawing, setIsEraser, isEraser,
-}: MenuProps) {
+export default function Menu({ setBrushColor, clearDrawing, setIsEraser }: MenuProps) {
+  const isEraser = useContext(IsEraserContext)
   const clearDrawingKeyDownHandler = (e: { code: string }) => {
     if (e.code === 'Enter' || e.code === 'Space') {
       clearDrawing()
@@ -49,37 +47,31 @@ export default function Menu({
       <div className={styles.colorPicker}>
         <ColorButton
           setBrushColor={setBrushColor}
-          brushColor={brushColor}
           setIsEraser={setIsEraser}
           color="#fff"
         />
         <ColorButton
           setBrushColor={setBrushColor}
-          brushColor={brushColor}
           setIsEraser={setIsEraser}
           color="#000"
         />
         <ColorButton
           setBrushColor={setBrushColor}
-          brushColor={brushColor}
           setIsEraser={setIsEraser}
           color="blue"
         />
         <ColorButton
           setBrushColor={setBrushColor}
-          brushColor={brushColor}
           setIsEraser={setIsEraser}
           color="green"
         />
         <ColorButton
           setBrushColor={setBrushColor}
-          brushColor={brushColor}
           setIsEraser={setIsEraser}
           color="yellow"
         />
         <ColorButton
           setBrushColor={setBrushColor}
-          brushColor={brushColor}
           setIsEraser={setIsEraser}
           color="red"
         />

@@ -1,6 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import {
+  useEffect, useRef, useState, createContext,
+} from 'react'
 import styles from './App.module.css'
 import Menu from './components/Menu'
+
+export const ColorContext = createContext<string | null>(null)
+export const IsEraserContext = createContext<boolean | null>(null)
 
 function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null!)
@@ -102,13 +107,15 @@ function App() {
   }
   return (
     <>
-      <Menu
-        brushColor={brushColor}
-        setBrushColor={setBrushColor}
-        clearDrawing={clearDrawing}
-        isEraser={isEraser}
-        setIsEraser={setIsEraser}
-      />
+      <ColorContext.Provider value={brushColor}>
+        <IsEraserContext.Provider value={isEraser}>
+          <Menu
+            setBrushColor={setBrushColor}
+            clearDrawing={clearDrawing}
+            setIsEraser={setIsEraser}
+          />
+        </IsEraserContext.Provider>
+      </ColorContext.Provider>
       <canvas
         ref={canvasRef}
         onMouseDown={startCursorDrawing}
