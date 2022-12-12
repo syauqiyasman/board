@@ -1,11 +1,11 @@
 .colorButtonOuter {
   padding: .5rem;
+  cursor: pointer;
 }
 
 .colorButtonInner {
   border: 1px solid #00000026;
   border-radius: 9999px;
-  cursor: pointer;
   width: 2.5rem;
   height: 2.5rem;
 }
